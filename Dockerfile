@@ -10,7 +10,7 @@ RUN yum install -y perl make gcc gcc-c++ pcre-devel ccache systemtap-sdt-devel p
 
 RUN curl -o /usr/local/src/zlib.tar.gz -SL https://www.zlib.net/zlib-${ZLIB_VERSION}.tar.gz \
 	&& tar zxf /usr/local/src/zlib.tar.gz -C /usr/local/src \
-	&& cd /usr/local/src/zlib-${ZLIB_VERSION}  \
+	&& cd /usr/local/src/zlib-${ZLIB_VERSION} \
 	&& ./configure --prefix=/usr/local/openresty/zlib \
 	&& make CFLAGS='-O3 -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g' SFLAGS='-O3 -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g' \
 	&& make install
@@ -99,7 +99,15 @@ RUN rm -rf /usr/local/openresty/zlib/share \
 	&& rm -rf /usr/local/openresty/pod \
 	&& rm -rf /usr/local/openresty/bin/opm \
 	&& rm -rf /usr/local/openresty/site/manifest \
-	&& rm -rf /usr/local/openresty/site/pod
+	&& rm -rf /usr/local/openresty/site/pod \
+	&& rm -rf /usr/local/src/zlib-${ZLIB_VERSION} \
+	&& rm -rf /usr/local/src/openssl-${OPENSSL_VERSION} \
+	&& rm -rf /usr/local/src/pcre-${PCRE_VERSION} \
+	&& rm -rf /usr/local/src/openresty-${OPENRESTY_VERSION} \
+	&& rm -f  /usr/local/src/zlib.tar.gz \
+	&& rm -f  /usr/local/src/openssl.tar.gz \
+	&& rm -f  /usr/local/src/pcre.tar.gz \
+	&& rm -f  /usr/local/src/openresty.tar.gz
 
 COPY nginx.conf /usr/local/openresty/nginx/conf/
 COPY default.conf security.conf /usr/local/openresty/nginx/conf/conf.d/
